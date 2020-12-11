@@ -9,7 +9,12 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 5;
     public int bananaMount = 1;
 
+    public AudioClip walkSound;
+    public AudioClip launchSound;
+
     public GameObject projectilePrefab;
+
+    AudioSource audioSource;
 
     public int health { get { return currentHealth; } }
     int currentHealth;
@@ -21,7 +26,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody2d;
     float horizontal;
     float vertical;
-
+    float timerCounterWalk = 1.25f;
+    float timerWalk = 0.5f;
     int targetFrameRate = 120;
 
     Animator animator;
@@ -37,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -56,6 +63,16 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Look X", lookDirection.x);
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
+
+        if (move.magnitude > 0)
+        {
+            timerWalk -= Time.deltaTime;
+            if (timerWalk < 0)
+            {                
+                audioSource.PlayOneShot(walkSound);
+                timerWalk = timerCounterWalk;
+            }
+        }
 
         if (isInvincible)
         {
@@ -126,6 +143,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetTrigger("Launch");
         UIProjectileCounter.instance.SetValue(bananaMount);
+        audioSource.PlayOneShot(launchSound);
     }
 
 }
