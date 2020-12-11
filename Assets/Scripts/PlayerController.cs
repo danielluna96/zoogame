@@ -9,12 +9,18 @@ public class PlayerController : MonoBehaviour
     public int maxHealth = 5;
     public int bananaMount = 1;
 
+
+    //Audios Utilizados para los sonidos
     public AudioClip walkSound;
     public AudioClip launchSound;
+    public AudioClip pickSound;
+    public AudioClip hurtSound;
 
-    public GameObject projectilePrefab;
-
+    //Componente de audio
     AudioSource audioSource;
+
+    //Objeto prefab que será lanzado
+    public GameObject projectilePrefab; 
 
     public int health { get { return currentHealth; } }
     int currentHealth;
@@ -26,8 +32,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rigidbody2d;
     float horizontal;
     float vertical;
-    float timerCounterWalk = 1.25f;
-    float timerWalk = 0.5f;
+    float timerCounterWalk = 0.6f;
+    float timerWalk = 0f;
     int targetFrameRate = 120;
 
     Animator animator;
@@ -38,11 +44,13 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
         currentHealth = maxHealth;
 
+        //Se establece un max frame rate de 120 fps
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
+
+        //Componente de audio con el componente del GameObject
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -64,12 +72,13 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Look Y", lookDirection.y);
         animator.SetFloat("Speed", move.magnitude);
 
+        //Si se esta moviendo
         if (move.magnitude > 0)
         {
             timerWalk -= Time.deltaTime;
             if (timerWalk < 0)
-            {                
-                audioSource.PlayOneShot(walkSound);
+            {
+                playSound(walkSound);
                 timerWalk = timerCounterWalk;
             }
         }
@@ -117,11 +126,17 @@ public class PlayerController : MonoBehaviour
             isInvincible = true;
             invincibleTimer = timeInvincible;
             animator.SetTrigger("Hit");
+            playSound(hurtSound);
         }
 
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
         UIHealthBar.instance.SetValue(currentHealth / (float)maxHealth);
-        Debug.Log(currentHealth + "/" + maxHealth);
+        if (currentHealth <= 0)
+        {
+            rigidbody2d.simulated = false;
+            DialogueManager dialogueManager = gameObject.GetComponent<DialogueManager>();
+            dialogueManager.changeMap(true, "MainMenu");
+        }
     }
 
     public void BananaPickUp()
@@ -129,6 +144,7 @@ public class PlayerController : MonoBehaviour
         if (bananaMount < 5)
         {
             bananaMount++;
+            playSound(pickSound);
         }
         UIProjectileCounter.instance.SetValue(bananaMount);
     }
@@ -143,7 +159,11 @@ public class PlayerController : MonoBehaviour
 
         animator.SetTrigger("Launch");
         UIProjectileCounter.instance.SetValue(bananaMount);
-        audioSource.PlayOneShot(launchSound);
+        playSound(launchSound);
     }
 
+    void playSound(AudioClip audio)
+    {
+        audioSource.PlayOneShot(audio);
+    }
 }

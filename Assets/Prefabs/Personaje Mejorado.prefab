@@ -139,10 +139,10 @@ GameObject:
   - component: {fileID: 5841308136101297442}
   - component: {fileID: 5841308136101297454}
   - component: {fileID: 5841308136101297451}
-  - component: {fileID: 5841308136101297448}
   - component: {fileID: 5841308136101297449}
   - component: {fileID: 4595408920085724382}
   - component: {fileID: 1662487055423431383}
+  - component: {fileID: -7118263590376811890}
   m_Layer: 0
   m_Name: Personaje Mejorado
   m_TagString: Untagged
@@ -328,25 +328,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &5841308136101297448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5841308136101297443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2177e728b9d57644ae41d4827747b82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  maxHealth: 5
-  bananaMount: 1
-  walkSound: {fileID: 0}
-  launchSound: {fileID: 0}
-  projectilePrefab: {fileID: 6757187339479783232, guid: 791f34d5b18fbb641bccb84d4170dc08, type: 3}
-  timeInvincible: 2
 --- !u!95 &5841308136101297449
 Animator:
   serializedVersion: 3
@@ -381,8 +362,10 @@ MonoBehaviour:
   speed: 6
   maxHealth: 5
   bananaMount: 1
-  walkSound: {fileID: 0}
-  launchSound: {fileID: 0}
+  walkSound: {fileID: 8300000, guid: d649a4fbc2a81384a9ebd836b6f77280, type: 3}
+  launchSound: {fileID: 8300000, guid: 334a46fe7f3008d4b8a32120e6006ae9, type: 3}
+  pickSound: {fileID: 8300000, guid: ae37084c0d0b6f9479f9690639e8d5b8, type: 3}
+  hurtSound: {fileID: 8300000, guid: 2224d27c4eb038c41b776deb35626cf9, type: 3}
   projectilePrefab: {fileID: 3811911972190045687, guid: 1581822e6bc4aba40b532ab99f14bcb6, type: 3}
   timeInvincible: 2
 --- !u!82 &1662487055423431383
@@ -481,6 +464,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7118263590376811890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5841308136101297443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82d93dd2c6b19c4c844c585f1d418de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    name: 
+    sentenceList: []
+  dialoguePanel: {fileID: 0}
+  displayText: {fileID: 0}
+  npcContainerImage: {fileID: 0}
+  npcImage: {fileID: 0}
+  typingSpeed: 0
+  speakSound: {fileID: 0}
 --- !u!1 &5841308136135613730
 GameObject:
   m_ObjectHideFlags: 0

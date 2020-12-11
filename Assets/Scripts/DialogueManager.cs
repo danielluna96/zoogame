@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -26,6 +27,8 @@ public class DialogueManager : MonoBehaviour
     
 
     bool insidePlayer = false;
+    bool change = false;
+    string sceneName = "";
 
     // Start is called before the first frame update
     void Start()
@@ -45,9 +48,28 @@ public class DialogueManager : MonoBehaviour
 
         void StartDialogue()
     {
+        dialoguePanel.SetActive(true);
+        componentImage.sprite = npcImage;
+        insidePlayer = true;
         sentences.Clear();
 
         foreach(string sentence in dialogue.sentenceList)
+        {
+            sentences.Enqueue(sentence);
+        }
+        DisplayNextSentence();
+    }
+
+    public void changeMap(bool chang, string sceneNam)
+    {
+        change = chang;
+        sceneName = sceneNam;
+        dialoguePanel.SetActive(true);
+        componentImage.sprite = npcImage;
+        insidePlayer = true;
+        sentences.Clear();
+
+        foreach (string sentence in dialogue.sentenceList)
         {
             sentences.Enqueue(sentence);
         }
@@ -60,6 +82,10 @@ public class DialogueManager : MonoBehaviour
         {
             displayText.text = activeSentence;
             dialoguePanel.SetActive(false);
+            if (change)
+            {
+                SceneManager.LoadScene(sceneName);
+            }
             return;
         }
         activeSentence = sentences.Dequeue();
@@ -83,11 +109,7 @@ public class DialogueManager : MonoBehaviour
     {
         if(col.CompareTag("Player"))
         {
-            
-            dialoguePanel.SetActive(true);
-            componentImage.sprite = npcImage;
-            StartDialogue();
-            insidePlayer = true;
+            StartDialogue();            
         }
     }
     private void OnTriggerExit2D(Collider2D col)

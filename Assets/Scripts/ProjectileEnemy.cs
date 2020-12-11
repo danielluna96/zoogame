@@ -18,7 +18,7 @@ public class ProjectileEnemy : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.magnitude > 20.0f)
+        if (transform.position.magnitude > 30.0f)
         {
             Destroy(gameObject);
         }

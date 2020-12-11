@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public float changeTime2;
     public GameObject projectilePrefab;
 
-    public int maxHealth = 5;//
+    public int maxHealth = 5;
 
     public int health { get { return currentHealth; } }
     int currentHealth;
@@ -24,6 +24,14 @@ public class EnemyController : MonoBehaviour
     Animator animator;
     Vector2 lookDirection = new Vector2(1, 0);
 
+    //Audios Utilizados para los sonidos
+    public AudioClip monkeySound;
+    public AudioClip launchSound;
+    public AudioClip hurtSound;
+
+    //Componente de audio
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +40,8 @@ public class EnemyController : MonoBehaviour
         timer2 = changeTime2;
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+        //Componente de audio con el componente del GameObject
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -48,6 +58,10 @@ public class EnemyController : MonoBehaviour
         {
             direction = -direction;
             timer = changeTime;
+            if (direction == 1)
+            {
+                playSound(monkeySound);
+            }
         }
         if (timer2 < 0 & direction == 1)
         {
@@ -98,6 +112,7 @@ public class EnemyController : MonoBehaviour
     public void Fix()
     {
         currentHealth = Mathf.Clamp(currentHealth - 1, 0, maxHealth);
+        playSound(hurtSound);
         UIHealthBarEnemy.instance.SetValue(currentHealth / (float)maxHealth);
         if (currentHealth == 0) 
         { 
@@ -106,6 +121,8 @@ public class EnemyController : MonoBehaviour
             //optional if you added the fixed animation
             animator.SetTrigger("Stop");
             animator.SetFloat("Speed", 0f);
+            DialogueManager dialogueManager = gameObject.GetComponent<DialogueManager>();
+            dialogueManager.changeMap(true, "Map");
         }
     }
 
@@ -114,6 +131,12 @@ public class EnemyController : MonoBehaviour
         animator.SetTrigger("Launch");
         GameObject projectileObject = Instantiate(projectilePrefab, rigidbody2D.position + Vector2.up * 0.5f, Quaternion.identity);
         ProjectileEnemy projectile = projectileObject.GetComponent<ProjectileEnemy>();
-        projectile.Launch(new Vector2(0,-1), 500);        
+        projectile.Launch(new Vector2(0,-1), 500);
+        playSound(launchSound);
+    }
+
+    void playSound(AudioClip audio)
+    {
+        audioSource.PlayOneShot(audio);
     }
 }
