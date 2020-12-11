@@ -749,7 +749,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.750002, y: -12.4000025, z: -10}
+  m_LocalPosition: {x: -10.791025, y: -12.400002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -22817,6 +22817,10 @@ PrefabInstance:
       propertyPath: speed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6439261428637553978, guid: d8fb99209b634784abb615fe81347df2, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 5228791763763610168, guid: e3f12f2795926ae4e9a8ae4f4b387a90, type: 3}
     - target: {fileID: 8784912641808394153, guid: d8fb99209b634784abb615fe81347df2, type: 3}
       propertyPath: m_Name
       value: Monkey
